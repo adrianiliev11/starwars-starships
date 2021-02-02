@@ -1,10 +1,11 @@
 import config from '../config';
 import EventEmitter from 'eventemitter3';
+import StarWarsUniverse from '../app/custom/StarWarsUniverse';
 
 const EVENTS = {
   APP_READY: 'app_ready',
 };
-
+const swu = new StarWarsUniverse();
 /**
  * App entry point.
  * All configurations are described in src/config.js
@@ -14,7 +15,9 @@ export default class Application extends EventEmitter {
     super();
 
     this.config = config;
-    this.data = {};
+    this.data = {
+      universe: swu.starships
+    };
 
     this.init();
   }
@@ -35,4 +38,3 @@ export default class Application extends EventEmitter {
     this.emit(Application.events.APP_READY);
   }
 }
-
