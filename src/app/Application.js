@@ -16,7 +16,7 @@ export default class Application extends EventEmitter {
 
     this.config = config;
     this.data = {
-      universe: swu.starships
+      universe: this.init()
     };
 
     this.init();
@@ -34,7 +34,8 @@ export default class Application extends EventEmitter {
    */
   async init() {
     // Initiate classes and wait for async operations here.
-
+    const data = await swu.init();
     this.emit(Application.events.APP_READY);
+    return data;
   }
 }
