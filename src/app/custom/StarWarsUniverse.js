@@ -8,7 +8,6 @@ export default class StarWarsUniverse {
             let maxValue = this.starships.reduce((max, data) => max.maxDaysInSpace > data.maxDaysInSpace ? max : data);
             return maxValue;
     }
-
     async init(){
             _getStarshipCount();
         }
@@ -17,7 +16,6 @@ export default class StarWarsUniverse {
             const data = await response.json();
             return data.count;
         }
-
     }
 
 async function _createStarships(){
