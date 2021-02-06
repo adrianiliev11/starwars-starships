@@ -5,18 +5,18 @@ import StarWarsUniverse from '../app/custom/StarWarsUniverse';
 const EVENTS = {
   APP_READY: 'app_ready',
 };
-const swu = new StarWarsUniverse();
 /**
  * App entry point.
  * All configurations are described in src/config.js
  */
+const swu = new StarWarsUniverse();
 export default class Application extends EventEmitter {
   constructor() {
     super();
 
     this.config = config;
     this.data = {
-      universe: swu.starships
+      universe: swu
     };
 
     this.init();
@@ -32,9 +32,11 @@ export default class Application extends EventEmitter {
    * and manipulate the DOM tree. Task data should be assigned to Application.data.
    * The APP_READY event should be emitted at the end of this method.
    */
+  
   async init() {
     // Initiate classes and wait for async operations here.
-
+    const data = await swu.init();
     this.emit(Application.events.APP_READY);
+    return data;
   }
 }
