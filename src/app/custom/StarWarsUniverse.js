@@ -25,7 +25,12 @@ export default class StarWarsUniverse {
                 const dataStarships = await responseStarships.json();
                 data.results = data.results.concat(dataStarships.results);
                  }
-            return data.results;
+                //  let starships = []
+                //  data.results.forEach(element => {
+                //     const starship = new Starship(element.name, element.consumables, element.passengers);
+                //     starships = starships.concat(starship);
+                //  })
+                 return data.results;
     }
     async _validateData() {
         const data = await this._createStarships();
@@ -36,7 +41,7 @@ export default class StarWarsUniverse {
                                                         && element.passengers != undefined
                                                         && element.consumables != "unknown"
                                                         && element.consumables != undefined
-                                                        && element.consumables != null  })
+                                                        && element.consumables != null })
         let starshipResults = []
         filterPassangers.forEach(element => {
             const starship = new Starship(element.name, element.consumables, element.passengers);
@@ -68,34 +73,8 @@ export default class StarWarsUniverse {
         return starshipResults;
   }
 
-//   async parseData(){
-//     const starshipResults = await this._validateData();
-//     starshipResults[2]._passengers = 843342;
-//     starshipResults.forEach(element => {
-//     if(element._consumables.includes("years" || "year"))
-//     {
-//         let years = parseInt(element._consumables);
-//         element._consumables = years*365;
-//     }
-//     else if(element._consumables.includes("months" || "month"))
-//     {
-//         let months = parseInt(element._consumables);
-//         element._consumables = months*30;
-//     }
-//     else if(element._consumables.includes("week" || "weeks")){
-//         let weeks = parseInt(element._consumables);
-//         element._consumables = weeks*7;
-//     }else{
-//         let days = parseInt(element._consumables);
-//         element._consumables = days;
-//     }
-//     let passangersParsed = parseInt(element._passengers);
-//     element._passengers = passangersParsed;
-// })
-
-
 get theBestStarship(){
-    const data = this.parseData();
+    const data = this._validateData();
     let maxValue = data.reduce((max, data) => max.maxDaysInSpace > data.maxDaysInSpace ? max : data);
     return maxValue;
 }
