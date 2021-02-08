@@ -5,7 +5,7 @@ export default class Starship {
       this._passengers = _passengers;
     }
     get maxDaysInSpace(){
-        this.maxDaysInSpace = this._consumables/this._passengers;
-        return this.maxDaysInSpace;
-    }
+      const maxDaysInSpace = this._consumables/this._passengers;
+      return maxDaysInSpace;
+  }
 }

@@ -1,11 +1,14 @@
 import Starship from '../custom/Starship';
-
 export default class StarWarsUniverse {
     constructor(){
-      this.starships = []
       this._validateData().then(response => this.starships = response)
-      this.data = []
       this._createStarships().then(response => this.data = response)
+      this.best = this.theBestStarship
+    }
+    get theBestStarship(){
+        return this._validateData()
+        .then(data => {return data.reduce((max, data) => max.maxDaysInSpace > data.maxDaysInSpace ? max : data);
+        })
     }
     async init(){
             let data = this._createStarships();
@@ -24,13 +27,13 @@ export default class StarWarsUniverse {
                 const responseStarships = await fetch(`https://swapi.booost.bg/api/starships/?page=${i}/`);
                 const dataStarships = await responseStarships.json();
                 data.results = data.results.concat(dataStarships.results);
-                 }
-                //  let starships = []
-                //  data.results.forEach(element => {
-                //     const starship = new Starship(element.name, element.consumables, element.passengers);
-                //     starships = starships.concat(starship);
-                //  })
-                 return data.results;
+                }
+            return data.results;
+    }
+    async theBest(){
+        const data = await this._validateData();
+        let maxValue = data.reduce((max, data) => max.maxDaysInSpace > data.maxDaysInSpace ? max : data);
+        return maxValue;
     }
     async _validateData() {
         const data = await this._createStarships();
@@ -43,24 +46,28 @@ export default class StarWarsUniverse {
                                                         && element.consumables != undefined
                                                         && element.consumables != null })
         let starshipResults = []
+        let flag = 0;
         filterPassangers.forEach(element => {
             const starship = new Starship(element.name, element.consumables, element.passengers);
-            starshipResults = starshipResults.concat(starship);
+            flag++;
+            if(flag <= 11){
+                starshipResults = starshipResults.concat(starship);
+            }
         });
 
     starshipResults[2]._passengers = 843342;
     starshipResults.forEach(element => {
-    if(element._consumables.includes("years" || "year"))
+    if(element._consumables.includes("years") || element._consumables.includes("year"))
     {
         let years = parseInt(element._consumables);
         element._consumables = years*365;
     }
-    else if(element._consumables.includes("months" || "month"))
+    else if(element._consumables.includes("month") || element._consumables.includes("months"))
     {
         let months = parseInt(element._consumables);
         element._consumables = months*30;
     }
-    else if(element._consumables.includes("week" || "weeks")){
+    else if(element._consumables.includes("week") || element._consumables.includes("weeks")){
         let weeks = parseInt(element._consumables);
         element._consumables = weeks*7;
     }else{
@@ -73,9 +80,4 @@ export default class StarWarsUniverse {
         return starshipResults;
   }
 
-get theBestStarship(){
-    const data = this._validateData();
-    let maxValue = data.reduce((max, data) => max.maxDaysInSpace > data.maxDaysInSpace ? max : data);
-    return maxValue;
-}
 }
