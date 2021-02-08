@@ -3,9 +3,9 @@ export default class StarWarsUniverse {
     constructor(){
       this._validateData().then(response => this.starships = response)
       this._createStarships().then(response => this.data = response)
-      this.best = this.theBestStarship
+      this.best.then(data => this.theBestStarship = data)
     }
-    get theBestStarship(){
+    get best(){
         return this._validateData()
         .then(data => {return data.reduce((max, data) => max.maxDaysInSpace > data.maxDaysInSpace ? max : data);
         })
